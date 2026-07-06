@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <script>
+    if (window.self !== window.top) {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'poli-theme') {
+          document.documentElement.setAttribute('data-theme', e.data.light ? 'light' : 'dark');
+        }
+      });
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Track tattoo machine maintenance, service intervals, and voltage history. LocalStorage-based logbook — no account required.">
+  <title>Machine Maintenance Logbook | Poli International</title>
+  <link rel="stylesheet" href="/tools/machine-maintenance-logbook/css/style.css">
+</head>
+<body>
+<div class="tool-wrapper">
+
+  <header class="tool-header">
+    <div class="tool-header__badge">🔧 Machine Maintenance</div>
+    <h1>Machine Maintenance Logbook</h1>
+    <p>Track service events, voltage calibration, and cleaning cycles for all your machines. Data is saved locally in your browser — nothing leaves your device.</p>
+  </header>
+
+  <div class="add-card">
+    <h2 class="add-title">Log New Entry</h2>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="entry-date">Date</label>
+        <input type="date" id="entry-date" class="input-field">
+      </div>
+      <div class="form-field">
+        <label for="machine-name">Machine / Device</label>
+        <input type="text" id="machine-name" class="input-field" placeholder="e.g. FK Irons Spektra">
+      </div>
+      <div class="form-field">
+        <label for="maint-type">Maintenance Type</label>
+        <select id="maint-type" class="input-field">
+          <option value="">Select type…</option>
+          <option value="Voltage calibration">Voltage calibration</option>
+          <option value="Clean & sanitise">Clean & sanitise</option>
+          <option value="Needle cartridge change">Needle cartridge change</option>
+          <option value="Full service">Full service (bearing/motor)</option>
+          <option value="Cord / RCA check">Cord / RCA check</option>
+          <option value="Grip sterilisation">Grip sterilisation</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="voltage-val">Voltage (V) <span class="opt-label">optional</span></label>
+        <input type="number" id="voltage-val" class="input-field" placeholder="e.g. 6.5" min="0" max="20" step="0.1">
+      </div>
+      <div class="form-field form-field--wide">
+        <label for="entry-notes">Notes <span class="opt-label">optional</span></label>
+        <textarea id="entry-notes" class="input-field textarea" rows="2" placeholder="e.g. replaced worn cam, bearing felt loose"></textarea>
+      </div>
+    </div>
+    <button id="add-btn" class="add-btn">Add to Log</button>
+  </div>
+
+  <div class="log-controls">
+    <div id="log-count" class="log-count"></div>
+    <div class="log-actions">
+      <button id="export-btn" class="ctrl-btn">Export CSV</button>
+      <button id="clear-btn" class="ctrl-btn ctrl-btn--danger">Clear All</button>
+    </div>
+  </div>
+
+  <div id="log-table-wrap">
+    <div id="empty-state" class="empty-state">No entries yet. Log your first maintenance event above.</div>
+    <table id="log-table" class="log-table" style="display:none">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Machine</th>
+          <th>Type</th>
+          <th>Voltage</th>
+          <th>Notes</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="log-body"></tbody>
+    </table>
+  </div>
+
+</div>
+<script src="/tools/machine-maintenance-logbook/js/app.js"></script>
+</body>
+</html>
