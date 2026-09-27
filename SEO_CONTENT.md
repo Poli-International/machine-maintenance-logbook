@@ -2,202 +2,199 @@
 
 ## Target Keywords
 
-### Primary Keyword
-tattoo machine maintenance log
+**Primary keyword:** tattoo machine maintenance log
 
-### Long-Tail Keywords
+**Long-tail keywords:**
+
 1. tattoo machine service log template
-2. rotary machine voltage calibration tracker
-3. coil machine maintenance schedule
-4. tattoo equipment service history log
-5. free tattoo machine maintenance tracker
-6. tattoo machine voltage log spreadsheet
-7. tattoo studio equipment maintenance tool
-8. tattoo machine bearing replacement log
-9. tattoo machine cleaning cycle tracker
-10. FK Irons Spektra maintenance log
-11. tattoo machine cord check log
-12. tattoo grip sterilisation log
-13. tattoo machine calibration record
-14. tattoo shop equipment maintenance checklist
+2. rotary machine service log
+3. coil machine calibration tracker
+4. tattoo machine voltage log
+5. tattoo machine running hours tracker
+6. studio equipment maintenance log
+7. tattoo machine service interval reminder
+8. tattoo machine parts and cost tracker
+9. machine maintenance log with .ics calendar export
+10. tattoo machine warranty and purchase date tracker
+11. tattoo machine maintenance CSV export
+12. tattoo machine service history by artist and station
+13. tattoo machine maintenance log stored in browser
+14. equipment maintenance logbook for tattoo studios
+15. tattoo machine service due and overdue alerts
 
 ## Meta Title
-```
-Machine Maintenance Logbook, Service & Voltage Tracker | Poli
+
+```html
+<title>Machine Maintenance Logbook, Service & Voltage Tracker</title>
 ```
 
 ## Meta Description
+
+```html
+<meta name="description" content="Log every tattoo machine service, calibration, and voltage check in one place. Track intervals, running voltage, and full equipment history.">
 ```
-Log every tattoo machine service, calibration, and voltage check. Track intervals, running voltage, and full equipment history. Free tool, no account needed.
-```
 
-## Content Outline
+## H1 + Content Outline
 
-### H1: Tattoo Machine Maintenance Logbook - Complete Guide
+# Tattoo Machine Maintenance Logbook
 
-#### H2: What is Tattoo Machine Maintenance Logbook?
-- H3: Purpose and core functionality
-- H3: How data storage works (localStorage, no server)
-- H3: Key features overview
-
-#### H2: Who Should Use This Tool
-- H3: Tattoo artists with multiple machines
-- H3: Studio owners managing shop equipment
-- H3: Apprentices learning machine maintenance
-- H3: Tattoo machine technicians and repair specialists
-
-#### H2: How to Use the Machine Maintenance Logbook
-- H3: Step 1: Set the date
-- H3: Step 2: Enter machine name
-- H3: Step 3: Select maintenance type
-- H3: Step 4: Record voltage (optional)
-- H3: Step 5: Add notes (optional)
-- H3: Step 6: Save the entry
-- H3: Step 7: View and manage your log
-- H3: Step 8: Export data to CSV
-- H3: Step 9: Clear all entries
-
-#### H2: Maintenance Types Available
-- H3: Voltage calibration
-- H3: Clean and sanitise
-- H3: Needle cartridge change
-- H3: Full service (bearing/motor)
-- H3: Cord/RCA check
-- H3: Grip sterilisation
-- H3: Other custom entries
-
-#### H2: Use Cases and Examples
-- H3: Example 1: Tracking rotary machine voltage calibration
-- H3: Example 2: Full service history for a coil machine
-- H3: Example 3: Daily cleaning and sterilisation log
-
-#### H2: Data Management Features
-- H3: Automatic date pre-filling
-- H3: Delete individual entries
-- H3: Export to CSV for backup
-- H3: Clear all data
-
-#### H2: Frequently Asked Questions
-- H3: Data privacy and storage questions
-- H3: Usage and functionality questions
-- H3: Export and compatibility questions
-
-#### H2: Structured Data for SEO
+- **What is Tattoo Machine Maintenance Logbook?**
+- **Who Should Use This**
+  - Studio owners and operations managers
+  - Resident, guest artists, and piercers
+  - Hygiene and safety officers
+  - Repair technicians and machine builders
+- **How to Use**
+  - Review the Maintenance Due & Overdue banner
+  - Register a new machine
+  - Manage machine status (retire / reactivate)
+  - Log a maintenance event
+  - Filter and review the service log
+  - Analyse parts and costs
+  - Back up and restore your data
+- **What the Tool Tracks**
+  - Machine identity fields
+  - Service event fields
+  - Interval logic (days and hours)
+  - Running hours delta calculation
+  - Cost aggregation by machine and year
+- **Use-Case Examples**
+  - A shared studio fleet with rotating artists
+  - A touring artist's personal rotary
+  - A technician documenting a full service
+- **Exporting and Printing**
+  - CSV export
+  - .ics calendar export
+  - JSON backup and restore
+  - Browser print
+- **Frequently Asked Questions (FAQ)**
+- **Structured Data**
+- **Internal Linking Suggestions**
 
 ## What is Tattoo Machine Maintenance Logbook?
 
-The Tattoo Machine Maintenance Logbook is a free web tool that lets tattoo artists and studio owners track every service event, voltage calibration, and cleaning cycle for their tattoo machines. The tool stores all data locally in your browser using localStorage, meaning no account creation is required and no data leaves your device.
+Tattoo Machine Maintenance Logbook is a free browser-based tool that records the identity, service history, and maintenance schedule of every tattoo machine in a studio. It is built around four views: a **Service Log**, a **Machines** register, a **Parts & Costs** breakdown, and a **Backup & Restore** panel.
 
-The logbook captures five key data points per entry: date, machine name, maintenance type, voltage reading, and optional notes. Users can log seven predefined maintenance types including voltage calibration, cleaning, cartridge changes, full service, cord checks, grip sterilisation, and custom entries. Each entry can be individually deleted, and the entire log can be exported as a CSV file for backup or analysis.
+The tool stores a machine's name or ID, serial number, model, supplier, purchase date, warranty end date, station or room, assigned artist, and an optional service interval in days, in hours, or both. Against each machine you log maintenance events with a service date, a maintenance type (voltage calibration, clean and sanitise, needle cartridge change, full service, cord / RCA check, grip sterilisation, parts replacement, or other), an optional running hours reading, an optional running voltage, parts replaced, cost, a filing reference for paper reports or receipt binders, and free-text notes.
 
-## Who Should Use This Tool
+From those inputs the tool does three things automatically. It compares each active machine against its configured interval and surfaces due or overdue warnings in a banner at the top of the page. It calculates the running-hours delta between consecutive services of the same type on the same machine. It aggregates parts and costs by machine and by calendar year.
 
-**Tattoo artists** who own multiple machines and need to track service intervals, voltage settings, and maintenance history for each device.
+Everything is held in your browser's local storage. Nothing is transmitted to Poli International or any external server. You can export the full log to CSV, export due maintenance dates to an .ics calendar file, and download or restore a complete JSON backup.
 
-**Studio owners** who manage equipment across multiple workstations and need a centralised log for compliance and equipment tracking.
+## Who Should Use This
 
-**Apprentices** learning proper machine maintenance who want to build a documented history of their service habits.
+**Studio owners and operations managers** coordinating a shared machine fleet across multiple stations, who need to see which machines are due for service and what the studio is spending on maintenance each year.
 
-**Tattoo machine technicians** who service machines for multiple artists and need to maintain detailed records of each machine's service history.
+**Resident, guest artists, and piercers** maintaining personal equipment, recording preferred running voltages, and tracking mechanical wear on their own machines.
+
+**Hygiene and safety officers** keeping inspection records and linking paper reports or receipt binders to digital entries via the filing reference field.
+
+**Repair technicians and machine builders** performing workshop overhauls, replacing bearings, and documenting running hours for studio clients.
 
 ## How to Use
 
-### Step 1: Set the date
-The date field automatically defaults to today's date. You can change it to any past or future date as needed.
+### Review the Maintenance Due & Overdue banner
 
-### Step 2: Enter machine name
-Type the name or identifier of your machine, for example "FK Irons Spektra" or "Coil Machine #2".
+The banner at the top of the tool lists machines that have passed their configured service interval. Overdue machines show as overdue by a number of days or by a number of running hours. Machines approaching their interval within fourteen days show as due in a number of days. When every active machine is within its schedule, the banner reports that all active machines are up to date. Each flagged machine has an **Export .ics** button that downloads a calendar event containing the machine name, serial number, station, and artist.
 
-### Step 3: Select maintenance type
-Choose from the dropdown menu: Voltage calibration, Clean & sanitise, Needle cartridge change, Full service (bearing/motor), Cord/RCA check, Grip sterilisation, or Other.
+### Register a new machine
 
-### Step 4: Record voltage (optional)
-Enter the voltage reading for your machine. Accepts values from 0 to 20 volts with 0.1 step increments.
+1. Open the **Machines** tab.
+2. Enter a **Machine Name / ID** (required).
+3. Fill in **Serial Number**, **Model**, and **Supplier / Distributor**.
+4. Set **Purchase Date** and **Warranty End Date**.
+5. Enter the **Station / Room** and **Assigned Artist**.
+6. Optionally set a **Service Interval (Days)** and/or a **Service Interval (Hours)**.
+7. Click **Save Machine**.
 
-### Step 5: Add notes (optional)
-Add any relevant notes about the service, such as "replaced worn cam, bearing felt loose".
+Registered machines appear in the **Registered Machines** table with their serial and model, supplier, purchase and warranty dates, station and artist, interval, and status.
 
-### Step 6: Save the entry
-Click the "Add to Log" button. The tool validates that date, machine name, and maintenance type are filled in before saving.
+### Manage machine status
 
-### Step 7: View and manage your log
-Entries appear in reverse chronological order in the table below. Each entry shows date, machine, type, voltage, and notes. Click the "×" button to delete any entry.
+In the **Registered Machines** table, active machines carry an **Active** status. Use **Retire** to mark a machine as sold, decommissioned, or held in reserve; its full history is preserved but it stops appearing in due and overdue alerts. Use **Reactivate** to return a retired machine to the active schedule.
 
-### Step 8: Export data to CSV
-Click "Export CSV" to download your entire log as a comma-separated values file. Each field is properly quoted for compatibility with spreadsheet software.
+### Log a maintenance event
 
-### Step 9: Clear all entries
-Click "Clear All" to remove all entries. This action requires confirmation and cannot be undone.
+1. Open the **Service Log** tab.
+2. Select the machine from the **Select Machine** dropdown.
+3. Set the **Service Date**.
+4. Optionally enter **Current Running Hours**.
+5. Choose a **Maintenance Type**: Voltage calibration, Clean & sanitise, Needle cartridge change, Full service (bearing/motor), Cord / RCA check, Grip sterilisation, Parts replacement, or Other.
+6. Optionally enter **Running Voltage (V)** (0 to 25).
+7. Optionally enter **Parts Replaced**, **Cost**, and a **Filing Reference (Paper Report / Receipt Binder)**.
+8. Add any **Service Notes**.
+9. Click **Add to Log**.
 
-## Use Cases and Examples
+### Filter and review the service log
 
-### Example 1: Tracking rotary machine voltage calibration
+Use the filter bar above the log table to narrow records by **Station / Room**, **Artist**, **Machine**, **Maintenance Type**, or **Status** (All, Active only, Retired only). The log table shows Date, Machine, Type, Hours (Delta), Voltage, Parts & Cost, Filing Ref, and Notes. The **Hours (Delta)** column reports the running hours elapsed since the previous service of the same type on the same machine. Each row has a delete control that asks for confirmation before removing the entry.
 
-An artist notices their FK Irons Spektra Direct is running inconsistently. They log a voltage calibration entry:
+### Analyse parts and costs
 
-- **Date:** 2025-03-15
-- **Machine:** FK Irons Spektra Direct
-- **Type:** Voltage calibration
-- **Voltage:** 8.5
-- **Notes:** Running slightly high, adjusted to 8.5V for lining
+Open the **Parts & Costs** tab. The **Total Costs by Machine** table lists parts replaced, the cost calculation, and total cost per machine. The **Total Costs by Year** table lists the number of events, the cost calculation, and total cost per calendar year.
 
-Two weeks later, they check the voltage again and log 8.3V, noting a gradual drop. This pattern helps identify a potential battery or connection issue.
+### Back up and restore your data
 
-### Example 2: Full service history for a coil machine
+Open the **Backup & Restore** tab. Use **Export JSON Backup** to download a complete archive of machines, service logs, and costs. Use **Restore JSON Backup** to load a JSON file onto a new device or after clearing your browser. Use **Clear All Data** to wipe all stored records, with a confirmation dialog before anything is removed.
 
-A studio owner sends their coil machine for a full service. They log:
+## What the Tool Tracks
 
-- **Date:** 2025-02-01
-- **Machine:** Coil Machine #3
-- **Type:** Full service (bearing/motor)
-- **Voltage:** (blank)
-- **Notes:** Replaced springs, cleaned contact points, new grommets
+**Machine identity fields:** Machine Name / ID, Serial Number, Model, Supplier / Distributor, Purchase Date, Warranty End Date, Station / Room, Assigned Artist, Service Interval (Days), Service Interval (Hours).
 
-Three months later, they log a routine clean and voltage check at 6.2V, creating a complete service history for that machine.
+**Service event fields:** Machine, Service Date, Current Running Hours, Maintenance Type, Running Voltage (V), Parts Replaced, Cost, Filing Reference, Service Notes.
 
-### Example 3: Daily cleaning and sterilisation log
+**Interval logic:** Each machine can carry a day-based interval, an hour-based interval, or both. The due banner checks active machines against these thresholds and flags overdue or due-soon machines.
 
-A studio implements a daily cleaning log for all machines. Each machine gets an entry at the end of each session:
+**Running hours delta:** When a running hours reading is entered, the tool finds the previous entry for the same machine and the same maintenance type, subtracts the earlier reading from the current one, and displays the delta.
 
-- **Date:** 2025-03-20
-- **Machine:** Rotary #1
-- **Type:** Grip sterilisation
-- **Voltage:** (blank)
-- **Notes:** Autoclaved grip, wiped down body
+**Cost aggregation:** Costs entered against service events are summed by machine and by calendar year.
 
-This creates a verifiable cleaning history for health department inspections.
+## Use-Case Examples
 
-## Frequently Asked Questions
+**A shared studio fleet with rotating artists.** A studio registers six machines, each assigned to a station and an artist, with a 90-day service interval and a 500-hour interval. When one machine passes 90 days since its last full service, the due banner flags it. The studio exports the .ics file, imports it into the shared calendar, and books the machine in for a bearing check.
 
-### 1. Is my data stored on a server?
-No. All data is stored locally in your browser using localStorage. Nothing is sent to any server.
+**A touring artist's personal rotary.** An artist registers a single rotary with a 60-day interval and no hour-based interval. Each clean and sanitise event is logged with a running voltage of 8.5 V and a note about the grip. After several months, the log shows a consistent voltage trend and the artist can spot when a calibration drifts.
 
-### 2. Can I access my log from a different computer?
-No, because data is stored locally in your browser. You can export your log as CSV and import it on another device.
+**A technician documenting a full service.** A technician logs a full service (bearing/motor) event, enters the running hours reading, records the parts replaced (bearings, gasket), enters the cost, and adds a filing reference pointing to the paper receipt binder. The Parts & Costs tab then shows the machine's cumulative spend for the year.
 
-### 3. How do I export my maintenance log?
-Click the "Export CSV" button. Your browser will download a file named "machine-maintenance-log.csv" containing all your entries.
+## Exporting and Printing
 
-### 4. Can I edit an existing entry?
-The tool does not support editing. You can delete an entry and create a new one with corrected information.
+- **CSV export:** In the Service Log tab, click **Export CSV** to download a table of dates, machines, types, hours, voltages, parts, costs, filing references, and notes.
+- **Calendar export:** In the due banner or the Machines table, click **Export .ics** to generate a calendar event for a machine that is due or overdue.
+- **JSON backup:** In the Backup & Restore tab, click **Export JSON Backup** to download a complete archive for backup or device transfer.
+- **Print:** Use your browser's print function (Ctrl+P or Cmd+P) on any view. The print stylesheet hides navigation, buttons, and colour backgrounds so you get clean tables for studio folders.
 
-### 5. What happens if I clear my browser data?
-Your log will be deleted if you clear your browser's local storage. Always export your data as CSV for backup.
+## Frequently Asked Questions (FAQ)
 
-### 6. How many entries can I store?
-There is no limit. The tool stores all entries in your browser's localStorage, which typically allows several megabytes of data.
+**How do I know when a tattoo machine needs servicing?**
+The tool continuously compares active machines against their configured intervals. When the day interval has elapsed or the running hours limit has been exceeded since the last check, the top banner flags the machine as overdue. If a target date falls within the next fourteen days, the banner reports it as due soon.
 
-### 7. Can I use this on my phone?
-Yes. The tool is responsive and works on mobile browsers. Data is stored per browser, so entries made on your phone won't appear on your desktop.
+**Can I set service intervals by running hours instead of calendar days?**
+Yes. Each machine can carry an hour-based interval, a day-based interval, or both at once. When you enter the running hours reading from your power supply at each service, the tool checks the cumulative hours and alerts you when the hour threshold is reached.
 
-### 8. What voltage range can I enter?
-The voltage field accepts values from 0 to 20 volts with 0.1 step increments.
+**What happens to maintenance records when a machine is retired?**
+Retiring a machine preserves all historical service records, parts costs, and voltage calibrations. The machine is simply removed from the current due and overdue alerts and upcoming calendar reminders, but it remains fully searchable through the status filters.
 
-### 9. Can I add custom maintenance types?
-The dropdown includes an "Other" option for any maintenance type not listed.
+**Where is my machine data stored?**
+All data is held only in your browser's local storage on the computer, tablet, or phone you are using. No machine data, serial numbers, costs, or artist names are transmitted over the internet or stored on Poli International servers.
 
-### 10. Is this tool free?
-Yes, it is completely free to use with no account required.
+**How do I move the logbook to another computer or tablet?**
+On your current computer, open the Backup & Restore tab and click **Export JSON Backup**. Transfer the downloaded file to the new device, open the tool there, click **Restore JSON Backup**, and select the file.
+
+**What is the filing reference field for?**
+The filing reference links the digital entry to physical studio folders, warranty documents, or receipt binders. By entering an invoice number or folder reference, staff can immediately produce the original workshop report or purchase receipt during a hygiene inspection.
+
+**Can I export upcoming maintenance dates to Google or Apple Calendar?**
+Yes. Clicking **Export .ics** next to a due machine generates a standard calendar file. You can import it directly into Google Calendar, Apple Calendar, or Microsoft Outlook to set up local reminders.
+
+**How does the logbook calculate the running hours difference between services?**
+When a running hours reading is entered on an event, the tool finds the previous entry for the same machine and the same maintenance type. It subtracts the earlier reading from the current one and reports exactly how many running hours the machine worked between those two checks.
+
+**Does the tool calculate machine depreciation or return on investment?**
+No. It tracks maintenance events, intervals, running hours, voltages, parts, and costs. It does not compute depreciation, payback periods, or hourly break-even thresholds.
+
+**Can I print a clean copy of the log for a studio folder?**
+Yes. Use your browser's print function on any view. The print stylesheet hides navigation, buttons, and colour backgrounds so you get clean tables suitable for physical studio records.
 
 ## Structured Data
 
@@ -209,101 +206,107 @@ Yes, it is completely free to use with no account required.
       "@type": "SoftwareApplication",
       "name": "Tattoo Machine Maintenance Logbook",
       "url": "https://poliinternational.com/tools/machine-maintenance-logbook/",
-      "description": "Track tattoo machine maintenance, service intervals, and voltage history. LocalStorage-based logbook with no account required.",
       "applicationCategory": "BusinessApplication",
-      "operatingSystem": "All",
-      "browserRequirements": "Requires JavaScript",
+      "operatingSystem": "Web",
+      "description": "Log every tattoo machine service, calibration, and voltage check in one place. Track intervals, running voltage, and full equipment history.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
-      "author": {
-        "@type": "Organization",
-        "name": "Poli International"
-      }
+      "featureList": [
+        "Machine identity register with serial, model, supplier, purchase and warranty dates",
+        "Service log with maintenance type, running hours, voltage, parts, cost, and filing reference",
+        "Service interval tracking by days, running hours, or both",
+        "Due and overdue maintenance banner with .ics calendar export",
+        "Running hours delta calculation between consecutive services",
+        "Cost aggregation by machine and by calendar year",
+        "CSV export of the full service log",
+        "JSON backup and restore",
+        "Local browser storage only, no data transmitted"
+      ]
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Is my data stored on a server?",
+          "name": "How do I know when a tattoo machine needs servicing?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. All data is stored locally in your browser using localStorage. Nothing is sent to any server."
+            "text": "The tool continuously compares active machines against their configured intervals. When the day interval has elapsed or the running hours limit has been exceeded since the last check, the top banner flags the machine as overdue. If a target date falls within the next fourteen days, the banner reports it as due soon."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I access my log from a different computer?",
+          "name": "Can I set service intervals by running hours instead of calendar days?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No, because data is stored locally in your browser. You can export your log as CSV and import it on another device."
+            "text": "Yes. Each machine can carry an hour-based interval, a day-based interval, or both at once. When you enter the running hours reading from your power supply at each service, the tool checks the cumulative hours and alerts you when the hour threshold is reached."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I export my maintenance log?",
+          "name": "What happens to maintenance records when a machine is retired?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Click the 'Export CSV' button. Your browser will download a file named 'machine-maintenance-log.csv' containing all your entries."
+            "text": "Retiring a machine preserves all historical service records, parts costs, and voltage calibrations. The machine is simply removed from the current due and overdue alerts and upcoming calendar reminders, but it remains fully searchable through the status filters."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I edit an existing entry?",
+          "name": "Where is my machine data stored?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The tool does not support editing. You can delete an entry and create a new one with corrected information."
+            "text": "All data is held only in your browser's local storage on the computer, tablet, or phone you are using. No machine data, serial numbers, costs, or artist names are transmitted over the internet or stored on Poli International servers."
           }
         },
         {
           "@type": "Question",
-          "name": "What happens if I clear my browser data?",
+          "name": "How do I move the logbook to another computer or tablet?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Your log will be deleted if you clear your browser's local storage. Always export your data as CSV for backup."
+            "text": "On your current computer, open the Backup & Restore tab and click Export JSON Backup. Transfer the downloaded file to the new device, open the tool there, click Restore JSON Backup, and select the file."
           }
         },
         {
           "@type": "Question",
-          "name": "How many entries can I store?",
+          "name": "What is the filing reference field for?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "There is no limit. The tool stores all entries in your browser's localStorage, which typically allows several megabytes of data."
+            "text": "The filing reference links the digital entry to physical studio folders, warranty documents, or receipt binders. By entering an invoice number or folder reference, staff can immediately produce the original workshop report or purchase receipt during a hygiene inspection."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I use this on my phone?",
+          "name": "Can I export upcoming maintenance dates to Google or Apple Calendar?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. The tool is responsive and works on mobile browsers. Data is stored per browser, so entries made on your phone won't appear on your desktop."
+            "text": "Yes. Clicking Export .ics next to a due machine generates a standard calendar file. You can import it directly into Google Calendar, Apple Calendar, or Microsoft Outlook to set up local reminders."
           }
         },
         {
           "@type": "Question",
-          "name": "What voltage range can I enter?",
+          "name": "How does the logbook calculate the running hours difference between services?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The voltage field accepts values from 0 to 20 volts with 0.1 step increments."
+            "text": "When a running hours reading is entered on an event, the tool finds the previous entry for the same machine and the same maintenance type. It subtracts the earlier reading from the current one and reports exactly how many running hours the machine worked between those two checks."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I add custom maintenance types?",
+          "name": "Does the tool calculate machine depreciation or return on investment?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The dropdown includes an 'Other' option for any maintenance type not listed."
+            "text": "No. It tracks maintenance events, intervals, running hours, voltages, parts, and costs. It does not compute depreciation, payback periods, or hourly break-even thresholds."
           }
         },
         {
           "@type": "Question",
-          "name": "Is this tool free?",
+          "name": "Can I print a clean copy of the log for a studio folder?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes, it is completely free to use with no account required."
+            "text": "Yes. Use your browser's print function on any view. The print stylesheet hides navigation, buttons, and colour backgrounds so you get clean tables suitable for physical studio records."
           }
         }
       ]
@@ -314,10 +317,15 @@ Yes, it is completely free to use with no account required.
 
 ## Internal Linking Suggestions
 
-Link to this tool from the following Poli International pages:
+Link to relevant Poli International wiki and blog topics that support the maintenance workflow this tool covers:
 
-- **Poli Wiki: Tattoo Machine Maintenance Guide** - Link to the logbook as a practical tool for tracking maintenance schedules
-- **Poli Blog: How to Calibrate a Rotary Tattoo Machine** - Reference the voltage tracking feature
-- **Poli Blog: Tattoo Studio Health Department Requirements** - Mention the logbook for compliance documentation
-- **Poli Wiki: Tattoo Machine Types and Care** - Link to the logbook for service tracking
-- **Poli Blog: Building a Tattoo Studio Operations Manual** - Include the logbook as a recommended tool
+- **Equipment ROI Calculator** for payback and depreciation analysis that this logbook deliberately does not perform.
+- **Studio Pricing Benchmark** for cabin rent, hourly rates, and artist split comparisons.
+- **Autoclave & Sterilization Calculator** for autoclave cycle, spore test, and chemical indicator logging.
+- **Biocompatibility Material Checker** for sterile piercing jewellery batch certificates and alloy standards.
+- **Tattoo machine voltage and calibration guides** for interpreting the Running Voltage (V) field over time.
+- **Rotary vs coil machine maintenance articles** for context on bearing, motor, and spring wear.
+- **Studio hygiene and inspection record guides** for how the filing reference field supports paper trail compliance.
+- **Tattoo studio inventory and asset management posts** for registering and retiring machines.
+- **Data backup and browser storage explainers** for understanding local storage and JSON backups.
+- **Tattoo machine buying and warranty guides** for making use of the purchase date and warranty end date fields.

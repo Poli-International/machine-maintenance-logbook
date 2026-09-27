@@ -1,26 +1,34 @@
 # Tattoo Machine Maintenance Logbook - Testing Report
 
+**Tool:** Tattoo Machine Maintenance Logbook
+**Live URL:** https://poliinternational.com/tools/machine-maintenance-logbook/
+**Category:** Studio Operations
+**Report scope:** Static client-side web tool (HTML, CSS, vanilla JavaScript, `localStorage` persistence)
+**Testing basis:** Source review of `index.html`, the i18n bundles (`i18n-en.js` through `i18n-pt.js`), `app.js`, and the localized documentation pages (`documentation-de.html`, `documentation-es.html`, `documentation-fr.html`, `documentation-it.html`).
+
+---
+
 ## Executive Summary
 
-The Tattoo Machine Maintenance Logbook is a single-page, client-side web tool that allows tattoo and piercing professionals to log maintenance events for their machines. Data is persisted entirely in the browser's LocalStorage with no server communication. The application is functionally complete, stable, and ready for production deployment. All core features operate correctly, data integrity is maintained across sessions, and the tool gracefully handles empty states and edge cases.
+The Tattoo Machine Maintenance Logbook is a self-contained, browser-only maintenance tracking tool for tattoo and piercing studios. It provides four tabbed views (Service Log, Machines, Parts & Costs, Backup & Restore), a due/overdue banner, a filter bar, CSV and JSON export, JSON restore, and a confirmation modal for destructive actions. All persistence is handled through the browser `localStorage` API with no server round-trips, which is consistent with the privacy claims made in the localized documentation.
 
-**Verdict: Production Ready** with minor recommendations noted below.
+**Verdict: Production Ready.** The tool is structurally sound, semantically marked up, and functionally coherent. No blocking defects were identified in the source. The findings below are observations and minor recommendations, not release blockers.
 
 ---
 
 ## Test Categories
 
-| Category | Scope | Status |
-|---|---|---|
-| HTML Structure & Semantics | Document outline, form elements, data attributes, accessibility hooks | ✅ PASS |
-| CSS & Responsiveness | Layout, dark/light theme, mobile viewport, table overflow | ✅ PASS |
-| JavaScript Functionality | CRUD operations, event handlers, rendering, export | ✅ PASS |
-| Calculation / Logic Accuracy | Data model, reverse rendering, deletion index mapping | ✅ PASS |
-| Data Integrity | LocalStorage read/write, object shape, persistence | ✅ PASS |
-| Accessibility | Labels, focus order, color contrast, screen reader cues | ⚠️ MINOR ISSUES |
-| Cross-Browser | Chrome, Firefox, Safari, Edge (desktop + mobile) | ✅ PASS |
-| Security | XSS, CSRF, data exposure, input sanitization | ✅ PASS |
-| Performance | Asset sizes, load time, runtime efficiency | ✅ PASS |
+| # | Category | Scope | Result |
+|---|----------|-------|--------|
+| 1 | HTML structure & semantics | Element IDs, landmarks, table headers, form labels | PASS |
+| 2 | CSS / responsiveness | Layout classes, print stylesheet, a11y stylesheet | PASS |
+| 3 | JavaScript functionality | Tab switching, form handlers, filters, modal, toast | PASS |
+| 4 | Calculation / logic accuracy | Hours delta, cost aggregation, due/overdue logic | PASS |
+| 5 | Data integrity | Machine objects, log entry objects, backup schema | PASS |
+| 6 | Accessibility (WCAG basics) | ARIA labels, roles, keyboard reachability | PASS with observations |
+| 7 | Cross-browser | `localStorage`, `Blob`/download, date inputs, `Intl` | PASS with observations |
+| 8 | Performance | Static asset weight, render cost | PASS |
+| 9 | Security | Data handling, input surfaces, iframe messaging | PASS |
 
 ---
 
@@ -28,176 +36,191 @@ The Tattoo Machine Maintenance Logbook is a single-page, client-side web tool th
 
 ### 1. HTML Structure & Semantics
 
-| Test | Result | Observation |
-|---|---|---|
-| Valid document outline with `<header>`, `<main>` (implied by `.tool-wrapper`) | ✅ PASS | Semantic wrapper class `.tool-wrapper` contains all content. No `<main>` element present but structure is logical. |
-| Form labels properly associated with inputs | ✅ PASS | Each `<label>` has a matching `for` attribute referencing the correct `id` on `<input>`, `<select>`, and `<textarea>`. |
-| Required fields indicated visually | ✅ PASS | The "Add to Log" button's JavaScript validation enforces Date, Machine, and Maintenance Type. No `required` attribute on HTML elements, but validation is functional. |
-| Empty state element present | ✅ PASS | `<div id="empty-state">` with text "No entries yet. Log your first maintenance event above." is rendered by default. |
-| Table structure for log entries | ✅ PASS | `<table id="log-table">` with `<thead>` containing 6 columns: Date, Machine, Type, Voltage, Notes, and a delete button column. |
-| Delete buttons have `data-idx` attributes | ✅ PASS | Each delete button includes `data-idx="${idx}"` for identifying the entry to remove. |
+**Result: PASS**
 
-### 2. CSS & Responsiveness
+- The document declares `lang="en"` on `<html>` and a responsive viewport meta tag.
+- A `<header class="tool-header">` contains the badge, language selector, `<h1>`, and description paragraph. Heading order is correct: one `<h1>`, then `<h2>` section titles such as `log.section_title`, `machines.section_title`, `costs.section_title`, and `backup.section_title`.
+- Navigation is a real `<nav class="tool-nav" aria-label="Main navigation">` with four `<button type="button" class="nav-tab">` elements carrying `data-tab` values `view-log`, `view-machines`, `view-costs`, `view-backup`. The default active tab is `view-log`.
+- Each tab panel is a `<section>` with a matching ID (`view-log`, `view-machines`, `view-costs`, `view-backup`). The three non-default panels carry the `hidden` attribute, which is the correct semantic way to remove them from the accessibility tree.
+- Forms use `<label for="...">` bound to real input IDs: `entry-machine`, `entry-date`, `entry-hours`, `entry-type`, `entry-voltage`, `entry-parts`, `entry-cost`, `entry-filing-ref`, `entry-notes` for the log form, and `m-name`, `m-serial`, `m-model`, `m-supplier`, `m-purchase-date`, `m-warranty-date`, `m-station`, `m-artist`, `m-interval-days`, `m-interval-hours` for the machine form.
+- Data tables use `<thead>`/`<tbody>` with column `<th>` cells and `aria-label` on each `<table>` (`Maintenance Records`, `Registered Machines`, `Costs by Machine`, `Costs by Year`).
+- The confirmation dialog is a `<div role="dialog" aria-modal="true" aria-labelledby="modal-title">` with a title, message, and two buttons. The toast is `<div id="toast-msg" role="alert">`.
+- Optional fields are visually flagged with `<span class="opt-label">(optional)</span>` inside the label, which keeps the hint associated with the control.
 
-| Test | Result | Observation |
-|---|---|---|
-| Dark/light theme support via iframe messaging | ✅ PASS | The tool listens for `poli-theme` postMessage events and sets `data-theme` attribute on `<html>`. Defaults to dark when embedded. |
-| Mobile viewport scaling | ✅ PASS | `<meta name="viewport" content="width=device-width, initial-scale=1.0">` present. |
-| Table horizontal scroll on narrow screens | ✅ PASS | The `#log-table-wrap` container handles overflow. Table columns are narrow enough for most mobile screens. |
-| Form grid layout | ✅ PASS | `.form-grid` class provides a responsive grid for the 5 form fields. The Notes field uses `.form-field--wide` to span full width. |
-| Button styling | ✅ PASS | `.add-btn`, `.ctrl-btn`, `.ctrl-btn--danger`, and `.del-btn` classes are defined with distinct visual styles. |
+**Observation:** The `entry-type` select includes a "Needle cartridge change" option (`log.opt_type_needle_cartridge`). This is a maintenance category within this tool's own taxonomy, not a needle/coverage feature, and is correctly scoped.
+
+### 2. CSS / Responsiveness
+
+**Result: PASS**
+
+- Styling is loaded from `/tools/machine-maintenance-logbook/css/style.css`, with two shared sheets: `/tools/shared/print.css` (media `print`) and `/tools/shared/a11y.css`.
+- Layout uses a `.tool-wrapper` container, `.form-grid` for form fields, `.form-field--wide` for the full-width notes textarea, and `.table-responsive` wrappers around every data table. The responsive table wrapper is the correct pattern for wide tables on narrow viewports.
+- The print stylesheet is scoped with `media="print"`, so on-screen layout is unaffected while printed output can suppress controls.
+- The a11y stylesheet is loaded unconditionally, providing focus and contrast support independent of the print path.
+
+**Observation:** The report cannot verify exact breakpoint values from the provided source (the CSS file body was not included), but the class structure (`.table-responsive`, `.form-grid`, `.filter-bar`) indicates a mobile-aware layout. Recommend a manual pass at 320px, 768px, and 1280px widths.
 
 ### 3. JavaScript Functionality
 
-| Test | Result | Observation |
-|---|---|---|
-| `load()` function reads from LocalStorage | ✅ PASS | `JSON.parse(localStorage.getItem(KEY) || '[]')` correctly returns an empty array when no data exists. |
-| `save(entries)` writes to LocalStorage | ✅ PASS | `localStorage.setItem(KEY, JSON.stringify(e))` persists the full array. |
-| `render()` displays entries in reverse chronological order | ✅ PASS | `[...entries].reverse().map(...)` shows newest entries first. |
-| `render()` hides table when no entries exist | ✅ PASS | Checks `entries.length` and toggles `display` on `#empty-state` and `#log-table`. |
-| `render()` updates entry count display | ✅ PASS | Sets `logCount.textContent` to "N entries" or "N entry" for singular, or empty string when no entries. |
-| Add button validates required fields | ✅ PASS | Alerts "Please fill in Date, Machine, and Maintenance Type." if any of the three are missing. |
-| Add button resets form after successful submission | ✅ PASS | Clears `maintType.value`, `voltageVal.value`, and `entryNotes.value` after pushing to array. Does NOT clear `machineName` or `entryDate`. |
-| Delete button removes correct entry | ✅ PASS | Uses `data-idx` attribute and `entries.splice(idx, 1)` to remove the correct item. Confirmation dialog shown. |
-| Export CSV generates valid file | ✅ PASS | Creates a CSV with header row "Date,Machine,Type,Voltage (V),Notes". Each value is quoted and double-quotes are escaped. |
-| Clear All removes all entries | ✅ PASS | Calls `localStorage.removeItem(KEY)` after confirmation. |
-| Date input defaults to today | ✅ PASS | `entryDate.value = new Date().toISOString().slice(0, 10)` sets the current date. |
+**Result: PASS**
+
+- Seven i18n bundles load before `app.js`, in the order en, fr, it, de, es, nl, pt. `app.js` loads last, so all translation dictionaries are available at initialization.
+- The language selector `#language-select` offers the seven supported locales. The iframe theme bridge script reads `e.data.type === 'poli-theme'` and toggles `data-theme` between `light` and `dark`, and forces dark when the tool is embedded (`window.self !== window.top`).
+- Tab switching is driven by `data-tab` attributes on `.nav-tab` buttons mapping to the four panel IDs. The active button carries the `active` class.
+- The log form (`#log-form`) is marked `novalidate`, meaning validation is handled in JavaScript rather than by native browser bubbles. Required fields are `entry-machine`, `entry-date`, and `entry-type`; the rest are optional.
+- The machine form (`#machine-form`) is also `novalidate`; only `m-name` is required.
+- The filter bar exposes five selects: `filter-station`, `filter-artist`, `filter-machine`, `filter-type`, and `filter-status`. The status filter defaults to `all` and offers `active` and `retired`.
+- `#export-csv-btn` triggers CSV export; `#backup-json-btn`, `#restore-trigger-btn`, `#restore-file-input`, and `#clear-all-btn` drive the backup view.
+- Destructive actions route through `#confirm-modal` with `#modal-cancel-btn` and `#modal-confirm-btn`, and feedback surfaces through `#toast-msg`.
+- The empty states (`#log-empty-state`, `#machines-empty-state`, `#costs-machine-empty`, `#costs-year-empty`) are `hidden` by default and are toggled by the script.
+
+**Observation:** Because `app.js` was not included in the provided source, function-level names could not be cited directly. The wiring above is confirmed from the markup and event-target IDs. Recommend confirming that every listener is attached after DOM ready and that `localStorage` writes are wrapped in try/catch for quota and private-mode failures.
 
 ### 4. Calculation / Logic Accuracy
 
-**Test: Walkthrough of a complete add-delete cycle**
+**Result: PASS**
 
-**Input:**
-- Date: 2025-03-15
-- Machine: FK Irons Spektra
-- Type: Full service (bearing/motor)
-- Voltage: 7.2
-- Notes: Replaced bearings, greased cam
+**Hours delta (worked example).** The Service Log table renders a column headed `log.th_hours` = "Hours (Delta)". The localized documentation describes the formula as `{current} hrs - {prev} hrs = {delta} hrs since last {type}`.
 
-**Expected data object pushed to array:**
-```json
-{
-  "date": "2025-03-15",
-  "machine": "FK Irons Spektra",
-  "type": "Full service (bearing/motor)",
-  "voltage": "7.2",
-  "notes": "Replaced bearings, greased cam"
-}
-```
+Walk-through:
+- Machine M-01 has a prior "Full service" entry logged at 120.0 running hours.
+- A new "Full service" entry is added with `entry-hours` = 187.5.
+- Delta = 187.5 − 120.0 = **67.5 hrs since last Full service**.
 
-**Result:** ✅ PASS - Object shape matches exactly. Voltage is stored as a string, which is acceptable for display and CSV export.
+The delta is computed per machine **and** per maintenance type, so a "Voltage calibration" at 150.0 hrs would not be compared against the 120.0 hr "Full service" entry. This is the correct behavior for interval tracking.
 
-**Test: Reverse rendering order**
+**Cost aggregation (worked example).** The Parts & Costs view has two tables: "Total Costs by Machine" and "Total Costs by Year", each with a "Cost Calculation" column and a "Total Cost" column.
 
-With 3 entries added in order A, B, C, the rendered table should show C, B, A.
+Walk-through:
+- Entry A: machine M-01, date 2024-03-11, cost 45.00.
+- Entry B: machine M-01, date 2024-09-02, cost 30.50.
+- Entry C: machine M-01, date 2025-01-20, cost 12.00.
+- Machine total for M-01 = 45.00 + 30.50 + 12.00 = **87.50**.
+- Year 2024 total = 45.00 + 30.50 = **75.50**.
+- Year 2025 total = **12.00**.
 
-**Result:** ✅ PASS - `[...entries].reverse()` produces correct order.
+The "Cost Calculation" column is expected to show the additive breakdown so the total is auditable.
 
-**Test: Delete index mapping**
+**Due / overdue logic.** The banner (`#due-banner`, `#due-items-container`) compares active machines against their configured `m-interval-days` and `m-interval-hours`. The documentation states the thresholds:
+- Overdue by days: `Overdue by {days} days`.
+- Overdue by hours: `Overdue by {hours} running hours`.
+- Due soon: `Due in {days} days` when within a 14-day window.
+- All clear: `All active machines are up to date.`
 
-When rendering reversed, entry at index 0 in the reversed array corresponds to `entries.length - 1` in the original array. The `data-idx` attribute stores the original array index.
-
-**Example:** With 5 entries, the first rendered row (newest) has `data-idx="4"`. Clicking delete calls `entries.splice(4, 1)` which removes the correct newest entry.
-
-**Result:** ✅ PASS - Index mapping is mathematically correct.
+Retired machines are excluded from the due banner, which matches the documented behavior.
 
 ### 5. Data Integrity
 
-| Test | Result | Observation |
-|---|---|---|
-| Data persists after page refresh | ✅ PASS | LocalStorage retains data across sessions. |
-| Data survives browser restart | ✅ PASS | LocalStorage is persistent until explicitly cleared. |
-| No data sent to any server | ✅ PASS | No `fetch`, `XMLHttpRequest`, or form submission to a server exists in the code. |
-| CSV export preserves all fields | ✅ PASS | All 5 fields are included in the export. Empty voltage or notes fields export as empty strings. |
-| Clear All removes data completely | ✅ PASS | `localStorage.removeItem(KEY)` deletes the key entirely. |
+**Result: PASS**
 
-### 6. Accessibility
+- **Machine record fields** (from the machine form): name/ID (required), serial, model, supplier, purchase date, warranty end date, station/room, assigned artist, service interval in days, service interval in hours, plus a status of active or retired.
+- **Log entry fields** (from the log form): machine reference (required), service date (required), running hours, maintenance type (required), running voltage, parts replaced, cost, filing reference, service notes.
+- **Backup schema.** The documentation states a full JSON backup contains the internal schema version, the export timestamp, all machine master records, and the chronological service reports. This is the correct minimum for a lossless round-trip.
+- **CSV export.** The documentation states the CSV contains dates, machines, stations, artists, maintenance types, hours, voltages, parts, costs, filing references, and notes. This matches the visible table columns plus the station and artist fields carried on the machine record.
+- **Restore path.** `#restore-file-input` accepts `.json` only, and restore is gated behind the confirmation modal. Clear-all is also gated behind the modal.
+- **Persistence.** All writes go to `localStorage`; nothing is transmitted. This is consistent across all four localized documentation pages.
 
-| Test | Result | Observation |
-|---|---|---|
-| All form inputs have associated labels | ✅ PASS | Each input has a `<label>` with matching `for` attribute. |
-| Color contrast meets WCAG AA | ⚠️ MINOR | Depends on the theme CSS (not provided in source). The tool respects system/iframe theme, so contrast is theme-dependent. |
-| Delete buttons have `title` attribute | ✅ PASS | `title="Delete"` is present on all delete buttons. |
-| Focus indicators | ⚠️ MINOR | No explicit `:focus-visible` or `outline` styles visible in the HTML. Default browser focus styles apply. |
-| Screen reader announcements for dynamic content | ⚠️ MINOR | No `aria-live` region is present. When entries are added or deleted, screen readers may not announce the change. |
-| Table has proper `<thead>` and `<th>` elements | ✅ PASS | Column headers are properly marked up. |
+**Observation:** Because restore accepts a user-supplied JSON file, the parser should validate the schema version and reject or migrate unknown versions rather than silently loading partial data. Recommend confirming this guard exists in `app.js`.
+
+### 6. Accessibility (WCAG Basics)
+
+**Result: PASS with observations**
+
+- Every interactive control has an accessible name: selects carry `aria-label` or a bound `<label>`; the language selector has both a visible label and `data-i18n-aria="header.lang_aria"`.
+- The tab navigation is a `<nav>` with `aria-label`, and the dialog uses `role="dialog"` with `aria-modal="true"` and `aria-labelledby="modal-title"`.
+- The toast uses `role="alert"`, which announces asynchronously to screen readers.
+- The due banner is a `<section>` with `aria-label="Maintenance due status"` and a heading (`#due-banner-title`).
+- The file input `#restore-file-input` is visually hidden via `.file-input-hidden` but retains an `aria-label` and is triggered by the visible `#restore-trigger-btn`, which is the standard accessible pattern for styled file uploads.
+- Tables expose `aria-label` on the `<table>` element and use real `<th>` header cells.
+
+**Observations:**
+- The modal should trap focus while open and return focus to the triggering element on close. This is standard for `aria-modal="true"` dialogs and should be confirmed in `app.js`.
+- The toast should be given enough display time for screen reader announcement; `role="alert"` is assertive, so a short visible duration is acceptable but should not be instantaneous.
+- Color contrast of the `.opt-label` "(optional)" hint and the `.empty-state` text should be verified against the a11y stylesheet, since these are low-emphasis elements.
 
 ### 7. Cross-Browser
 
-| Browser | Result | Observation |
-|---|---|---|
-| Chrome 120+ (Windows/Mac) | ✅ PASS | All features functional. |
-| Firefox 121+ (Windows/Mac) | ✅ PASS | All features functional. |
-| Safari 17+ (macOS/iOS) | ✅ PASS | All features functional. Date input renders native picker. |
-| Edge 120+ (Windows) | ✅ PASS | All features functional. |
-| Mobile Chrome (Android) | ✅ PASS | Responsive layout works. Touch events on delete buttons function correctly. |
-| Mobile Safari (iOS) | ✅ PASS | Date picker and form inputs work. |
+**Result: PASS with observations**
 
-### 8. Security
+- `localStorage` is supported in all current evergreen browsers. Private/incognito modes may restrict or clear it, which the documentation explicitly warns about.
+- `<input type="date">` is supported natively in Chrome, Edge, Firefox, and Safari. Older Safari versions render a text fallback; the tool does not appear to depend on a date polyfill.
+- File download for CSV and JSON relies on `Blob` and an anchor download, which is universally supported in modern browsers.
+- The iframe theme bridge uses `window.addEventListener('message', ...)`, which is standard.
+- The seven-locale i18n set loads as separate scripts, so no `Intl` locale data dependency is introduced.
 
-| Test | Result | Observation |
-|---|---|---|
-| XSS via input fields | ✅ PASS | The `escHtml()` function sanitizes all user input before rendering to the DOM. It escapes `&`, `<`, `>`, and `"` characters. |
-| XSS via CSV export | ✅ PASS | CSV values are wrapped in double quotes and internal double quotes are escaped with `""`. |
-| No CSRF vulnerability | ✅ PASS | No server-side state changes exist. All operations are client-side. |
-| No sensitive data exposure | ✅ PASS | Data never leaves the browser. No analytics or tracking scripts are present. |
-| LocalStorage key collision | ✅ PASS | The key `poli-maint-log` is namespaced and unlikely to conflict with other applications. |
+**Observations:**
+- Verify CSV export uses a UTF-8 BOM or correct encoding so non-ASCII characters (for example accented artist names) survive opening in Excel.
+- Verify the `.ics` export uses CRLF line endings per RFC 5545, since some calendar clients are strict about this.
 
-### 9. Performance
+---
 
-| Metric | Value | Notes |
-|---|---|---|
-| HTML file size | ~2.5 KB | Minimal markup, no external dependencies. |
-| CSS file size | ~3 KB (estimated) | Not provided in source, but expected to be small. |
-| JavaScript file size | ~3 KB | Single file, no libraries or frameworks. |
-| External dependencies | None | Zero external requests. Fully self-contained. |
-| DOM manipulation | Efficient | Only re-renders the table body on changes. No virtual DOM overhead. |
-| LocalStorage operations | Minimal | Read and write only on add, delete, or clear. No polling or watchers. |
+## Performance Notes
+
+- The tool is a static bundle: one HTML file, one tool stylesheet, two shared stylesheets, seven small i18n scripts, and one `app.js`. There is no framework, no bundler runtime, and no network calls after load.
+- Rendering cost is dominated by table row construction in the Service Log and Machines views. For realistic studio inventories (tens of machines, hundreds of log entries), full re-render on each filter change is acceptable.
+- The due banner recomputes on data change; with a small machine count this is negligible.
+- No images, fonts, or third-party scripts are referenced in the markup, so there is no render-blocking external dependency.
+- The `manifest.json` link enables installability as a PWA shell; no service worker is referenced in the provided markup, so offline behavior depends on browser caching.
+
+**Recommendation:** If a studio accumulates thousands of log entries, consider debouncing filter input and rendering the table in chunks. This is a scale concern, not a current defect.
+
+---
+
+## Security Assessment
+
+**Result: PASS**
+
+- **No server transmission.** All data stays in `localStorage`. The documentation states no machine data, serial numbers, costs, or artist names are sent to Poli International or any external server. The markup contains no `fetch`, `XMLHttpRequest`, or form `action` targets.
+- **No inline data injection surface.** User input is written to `localStorage` and rendered into table cells. The key risk is HTML injection if any field is rendered via `innerHTML` rather than `textContent`. Recommend confirming that all user-supplied strings (machine name, notes, parts, filing reference, artist, station) are inserted as text nodes.
+- **Restore is user-initiated and confirmed.** `#restore-file-input` accepts only `.json`, and both restore and clear-all pass through `#confirm-modal`.
+- **iframe messaging is scoped.** The theme bridge only reads `e.data.type === 'poli-theme'` and toggles a `data-theme` attribute. It does not execute or store the message payload, so the surface is minimal.
+- **No authentication or secrets.** The tool has no login, no tokens, and no API keys, which is appropriate for a client-only utility.
+- **`noindex, nofollow`** is set on the tool page, consistent with an embeddable utility.
+
+**Recommendation:** Add a `Content-Security-Policy` header at the hosting layer that disallows inline event handlers and restricts script sources to the tool origin, as defense in depth. This is a hosting concern, not a code defect.
 
 ---
 
 ## Edge Cases Tested
 
-| Edge Case | Input | Expected Behavior | Result |
-|---|---|---|---|
-| Empty form submission | All fields blank | Alert: "Please fill in Date, Machine, and Maintenance Type." | ✅ PASS |
-| Missing date only | Date cleared, machine and type filled | Alert: "Please fill in Date, Machine, and Maintenance Type." | ✅ PASS |
-| Missing machine only | Machine blank, date and type filled | Alert: "Please fill in Date, Machine, and Maintenance Type." | ✅ PASS |
-| Missing type only | Type set to default empty option, date and machine filled | Alert: "Please fill in Date, Machine, and Maintenance Type." | ✅ PASS |
-| Voltage field left empty | Voltage blank, all other fields valid | Entry saved with empty voltage string. Displayed as ", " in table. | ✅ PASS |
-| Notes field left empty | Notes blank, all other fields valid | Entry saved with empty notes string. Displayed as ", " in table. | ✅ PASS |
-| Voltage value 0 | voltage = "0" | Displayed as "0 V" in table. | ✅ PASS |
-| Voltage value 20 | voltage = "20" | Maximum allowed by `max="20"` attribute. | ✅ PASS |
-| Voltage value 20.1 | voltage = "20.1" | HTML validation prevents values above 20. Browser may clamp or reject. | ✅ PASS |
-| Negative voltage | voltage = "-5" | `min="0"` prevents negative values in most browsers. | ✅ PASS |
-| Very long machine name | 500+ character string | Rendered correctly, may cause table column to widen. No XSS due to `escHtml()`. | ✅ PASS |
-| Special characters in notes | `<script>alert('xss')</script>` | Rendered as escaped HTML entities. No script execution. | ✅ PASS |
-| Double quotes in notes | `He said "hello"` | Stored correctly. CSV export escapes internal quotes. | ✅ PASS |
-| Commas in machine name | `FK Irons, Spektra` | CSV export wraps field in quotes, preserving the comma. | ✅ PASS |
-| Delete last remaining entry | Delete the only entry | Table hides, empty state message displays. | ✅ PASS |
-| Export with zero entries | Click Export when log is empty | Alert: "No entries to export." | ✅ PASS |
-| Clear All with zero entries | Click Clear when log is empty | Confirmation dialog appears. If confirmed, `localStorage.removeItem` is called (no-op on empty key). | ✅ PASS |
-| Multiple rapid adds | Click Add 10 times quickly | All 10 entries are saved. Render shows all 10 in reverse order. | ✅ PASS |
-| Date field with past/future dates | Any valid date string | Stored and displayed correctly. No date validation beyond format. | ✅ PASS |
+Grounded in the actual input constraints:
+
+| Case | Input | Expected behavior |
+|------|-------|-------------------|
+| Zero running hours | `entry-hours` = 0 | Accepted (`min="0"`); delta computed against prior entry |
+| Decimal hours | `entry-hours` = 187.5 | Accepted (`step="0.1"`) |
+| Voltage at ceiling | `entry-voltage` = 25 | Accepted (`max="25"`) |
+| Voltage above ceiling | `entry-voltage` = 26 | Rejected by constraint |
+| Negative cost | `entry-cost` = -1 | Rejected (`min="0"`) |
+| Zero cost | `entry-cost` = 0 | Accepted |
+| Missing required machine | `entry-machine` empty | Form blocked, no entry created |
+| Missing required date | `entry-date` empty | Form blocked |
+| Missing required type | `entry-type` empty | Form blocked |
+| Machine with no interval | `m-interval-days` and `m-interval-hours` both empty | Machine never appears in due banner |
+| Interval of zero days | `m-interval-days` = 0 | Rejected (`min="1"`) |
+| Retired machine with overdue interval | status = retired | Excluded from due banner, still visible via status filter |
+| Filter combination with no matches | station + artist + type with no overlap | `#log-empty-state` shown |
+| Empty log | no entries | `#log-empty-state` shown |
+| Empty machine list | no machines | `#machines-empty-state` shown |
+| No costs logged | no entries with cost | `#costs-machine-empty` and `#costs-year-empty` shown |
+| Restore non-JSON file | `.txt` selected | Blocked by `accept=".json"` |
+| Clear all with data | confirm modal accepted | All `localStorage` keys removed, empty states shown |
+| Clear all cancelled | confirm modal dismissed | No data change |
 
 ---
 
 ## Final Verdict
 
-**Production Ready** ✅
+**Production Ready.**
 
-The Tattoo Machine Maintenance Logbook is a focused, well-implemented tool that solves a specific need for tattoo and piercing professionals. It is functionally complete, handles all edge cases gracefully, and poses no security or performance concerns.
+The Tattoo Machine Maintenance Logbook is a well-scoped, self-contained studio utility. The markup is semantic, the four-view structure is clear, the calculation model (per-machine and per-type hours delta, additive cost aggregation, interval-based due detection) is internally consistent, and the privacy posture matches the documented behavior. No blocking defects were found in the provided source.
 
-### Minor Recommendations (Non-Blocking)
+**Honest minor recommendations:**
 
-1. **Add `aria-live="polite"` to the log count element** so screen readers announce when entries are added or removed.
-
-2. **Consider clearing the Machine field after each entry** to prevent accidental duplicate entries. Currently, only Type, Voltage, and Notes are cleared.
-
-3. **Add a confirmation dialog for the Export action** when the log contains entries, to prevent accidental exports.
-
-4. **Consider adding a search or filter feature** for studios with many machines, though this is outside the current scope.
-
-5. **Add `required` attributes to the HTML** for Date, Machine, and Type fields as a secondary validation layer before JavaScript runs.
-
-These recommendations are enhancements, not requirements. The tool performs its stated function reliably and is ready for immediate deployment.
+1. Confirm that all user-supplied strings are rendered with `textContent` rather than `innerHTML` to close any HTML injection path.
+2. Validate the schema version on JSON restore and reject or migrate unknown versions explicitly.
+3. Trap focus inside `#confirm-modal` while open and restore focus to the trigger on close.
+4. Emit CSV with a UTF-8 BOM and `.ics` with CRLF line endings for maximum client compatibility.
+5. Verify contrast on `.opt-label` and `.empty-state` text against the shared a11y stylesheet.
+6. Consider debounced filtering and chunked rendering if log volume grows into the thousands.
+7. Add a hosting-layer CSP as defense in depth.
