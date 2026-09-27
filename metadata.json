@@ -1,0 +1,5 @@
+{
+  "name": "Machine Maintenance Logbook-V2",
+  "description": "Track service events, voltage calibration, and cleaning cycles for tattoo machines. Log entries locally in your browser with CSV export.",
+  "requestFramePermissions": []
+}
